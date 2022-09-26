@@ -8,6 +8,7 @@ export default function Dashboard() {
   useEffect(() => {
     api.get("/me")
       .then(console.log)
+      .catch(console.log)
   }, [])
 
   return (

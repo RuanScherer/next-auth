@@ -1,5 +1,6 @@
 import axios, { AxiosError, AxiosRequestConfig } from "axios"
 import { parseCookies, setCookie } from "nookies"
+import { signOut } from "../contexts/AuthContext"
 
 type FailedRequest = {
   onSuccess: (token: string) => void
@@ -31,9 +32,9 @@ function handleStatus401(error: AxiosError) {
   if (responseData?.code === "token.expired") {
     return refreshToken(error)
   } else {
-    // signOut()
-    return Promise.reject(error)
+    signOut()
   }
+  return Promise.reject(error)
 }
 
 function refreshToken(error: AxiosError) {
@@ -86,10 +87,6 @@ function addFailedRequestToQueue(originalConfig: AxiosRequestConfig) {
       }
     })
   })
-}
-
-function signOut() {
-
 }
 
 export function resetDefaultHeader(headerName: string, headerValue: any) {
